@@ -37,6 +37,7 @@ func main() {
 
 	base_prompt := "New password to encrypt your private key,"
 	p := t0mkcommon.GetCheckedPassword(base_prompt)
+	fmt.Println("Password OK, now creating new account")
 
 	new_account, err := am.NewAccount(p)
 	if err != nil {
