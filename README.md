@@ -2,7 +2,9 @@ I did this because I found no reasonable way to sign ethereum transaction offlin
 
 I wanted to do this on Tails, as that's quite guaranteed to be clean and forgetful. First I tried to do it in Python as in http://vitalik.ca/files/python_cold_wallet_instructions.txt, but it turned out to be too much pain to run the pyethereum on Tails. Then there is the Icebox https://github.com/ConsenSys/icebox but that's javascript, meaning the browser will get to see the password too :/.
 
-Then I realized I can just put it together in Go. That way, also se tools are using go-ethereum (geth) codebase.
+Then I realized I can just put it together in Go. That way, I can theoretically easily cross-compile and run it on different archs (RP, some handheld, ...).
+
+The tools are usign go-ethereum (geth) codebase.
 
 As geth account manager works with keystore directory, the dir is what you need to pass to these tools.
 
