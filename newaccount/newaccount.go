@@ -25,7 +25,15 @@ func main() {
 	if len(os.Args) != 2 {
 		usage()
 	}
-	am := accounts.NewManager("/home/tomk/.ethereum/keystore", 262144, 1)
+	stat, err := os.Stat(os.Args[1])
+	if err != nil {
+		log.Fatal(err)
+	}
+	if !stat.IsDir() {
+		log.Fatal(os.Args[1], "is not a directory")
+	}
+
+	am := accounts.NewManager(os.Args[1], 262144, 1)
 
 	base_prompt := "New password to encrypt your private key,"
 	p := t0mkcommon.GetCheckedPassword(base_prompt)
