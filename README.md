@@ -27,15 +27,13 @@ IIUC xgo is building the code in container from pulled Docker image. This sucks 
 
 ### gas price and gas limit
 
-I just took values from recent transactions on the blockchain. Gas price for transaction should be 21000 and gas price I set 40000000000. The total transcaction cost should be 0.000840 eth.
+I just took values that I observed in Ethereum-Wallet. Gas limit for transaction is 121000 and gas price I set 20000000000. The total transcaction cost should be 0.00042 eth.
 
 ### Nonce
 
 You need to set nonce for the transaction manually. Nonce is, IIUC, the number (count, amount) of transactions already sent from an address. First transaction from new address has nonce 0, second has nonce 1, etc.
 
 It's reasonable to find out how many txs werer sent from sending address from an eth node with updated blockchain, perhaps from here: https://etherscan.io/address/0xyouraddress
-
-Your nonce is `count+1` of the account you want to send from.
 
 Naturally, if you have just created the account, the nonce should be zero.
 

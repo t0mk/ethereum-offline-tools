@@ -65,13 +65,11 @@ func main() {
 	}
 
 	// gas for tx is 21000
-	gas_limit := common.String2Big("21000")
+	gas_limit := common.String2Big("121000")
 
-	//  gas prices in Mist 18.5.2016 are between 30 and 90 * 10**9 wei
-	// I pick 40
-	// >>> 40 * 10**9
-	// 40000000000
-	gas_price := common.String2Big("40000000000")
+	// >>> 20 * 10**9
+	// 20000000000
+	gas_price := common.String2Big("20000000000")
 
 	// Is using String2Big retarded in this context? I guess, but I refuse to
 	// investigate the int types and their limits now in 2016 ...
@@ -85,8 +83,8 @@ func main() {
 		log.Fatal("amount number conversion fail")
 	}
 
-	tx_cost_wei := new(big.Int).Mul(gas_price, gas_limit)
-	tx_cost_eth := new(big.Float).Mul(new(big.Float).SetInt(tx_cost_wei), big.NewFloat(math.Pow10(-18)))
+	max_tx_cost_wei := new(big.Int).Mul(gas_price, gas_limit)
+	max_tx_cost_eth := new(big.Float).Mul(new(big.Float).SetInt(max_tx_cost_wei), big.NewFloat(math.Pow10(-18)))
 
 	// http://ethereum.stackexchange.com/questions/3386/create-and-sign-offline-raw-transactions
 	//
@@ -110,7 +108,12 @@ func main() {
 	fmt.Println("transaction:")
 	fmt.Println(signed_tx)
 	fmt.Println()
-	fmt.Println("Transaction cost in Eth in 7 decimals:", tx_cost_eth.Text('f', 6))
+	fmt.Println("Maximum transaction cost in Eth in 7 decimals:", max_tx_cost_eth.Text('f', 6))
 	fmt.Println()
+	fmt.Println("You can publish the Hex at https://etherscan.io/pushTx")
+
+	fmt.Println()
+	fmt.Println("After you publish, you can see your transaction at:")
+	fmt.Println(fmt.Sprintf("https://etherscan.io/tx/0x%x", signed_tx.Hash()))
 
 }
