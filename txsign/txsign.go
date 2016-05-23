@@ -64,36 +64,17 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// gas limit in txs 18.05.2016:  0.00000002 Ether == 200000000000 wei
-	gas_limit_wei_float := big.NewFloat(math.Pow10(18) * 0.00000002)
-	if (!gas_limit_wei_float.IsInt()) || gas_limit_wei_float.IsInf() {
-		log.Fatal("gas limit number fail")
-	}
-	gas_limit_wei, accuracy := gas_limit_wei_float.Int(nil)
-	if accuracy != big.Exact {
-		log.Fatal("gas limit number conversion fail")
-	}
+	// gas for tx is 21000
+	gas_limit := common.String2Big("21000")
 
-	// gas prices in Mist 18.5.2016
-	// 0.000658154
-	// 0.00072398
-	// 0.000796378
-	// 0.000875984
-	// 0.000963646
-	// 0.00106
-	// 0.001166
-	// 0.0012826
-	// 0.00141086
-	// 0.001551946
-	// 0.00170713
-	gas_price_wei_float := big.NewFloat(math.Pow10(18) * 0.000963646)
-	if (!gas_price_wei_float.IsInt()) || gas_price_wei_float.IsInf() {
-		log.Fatal("gas price number fail")
-	}
-	gas_price_wei, accuracy := gas_price_wei_float.Int(nil)
-	if accuracy != big.Exact {
-		log.Fatal("gas price number conversion fail")
-	}
+	//  gas prices in Mist 18.5.2016 are between 30 and 90 * 10**9 wei
+	// I pick 40
+	// >>> 40 * 10**9
+	// 40000000000
+	gas_price := common.String2Big("40000000000")
+
+	// Is using String2Big retarded in this context? I guess, but I refuse to
+	// investigate the int types and their limits now in 2016 ...
 
 	amount_wei_float := big.NewFloat(math.Pow10(18) * amount_ether)
 	if (!amount_wei_float.IsInt()) || amount_wei_float.IsInf() {
@@ -104,14 +85,17 @@ func main() {
 		log.Fatal("amount number conversion fail")
 	}
 
+	tx_cost_wei := new(big.Int).Mul(gas_price, gas_limit)
+	tx_cost_eth := new(big.Float).Mul(new(big.Float).SetInt(tx_cost_wei), big.NewFloat(math.Pow10(-18)))
+
 	// http://ethereum.stackexchange.com/questions/3386/create-and-sign-offline-raw-transactions
 	//
 	// transaction := types.NewTransaction(nonce, recipient, value, gasLimit, gasPrice, input)
 	// signature, _ := crypto.Sign(transaction.SigHash().Bytes(), key)
 	// signed, _ := tx.WithSignature(signature)
 
-	tx := types.NewTransaction(nonce, to_addr, amount_wei, gas_limit_wei,
-		gas_price_wei, nil)
+	tx := types.NewTransaction(nonce, to_addr, amount_wei, gas_limit,
+		gas_price, nil)
 
 	signature, err := am.Sign(from_addr, tx.SigHash().Bytes())
 	if err != nil {
@@ -125,5 +109,8 @@ func main() {
 
 	fmt.Println("transaction:")
 	fmt.Println(signed_tx)
+	fmt.Println()
+	fmt.Println("Transaction cost in Eth in 7 decimals:", tx_cost_eth.Text('f', 6))
+	fmt.Println()
 
 }
