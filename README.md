@@ -6,6 +6,8 @@ Then I realized I can just put it together in Go. That way, I can theoretically 
 
 The tools are usign the go-ethereum (geth) codebase from https://github.com/ethereum/go-ethereum
 
+The cross-compilation turned out a bit more complicated because geth is using some crypto C code, so simple `GOARCH=386 go build` will not cut it. It can be done with xgo though, see below.
+
 As geth account manager works with keystore directory, the dir is what you need to pass to these tools.
 
 # Tools
