@@ -33,7 +33,7 @@ I just took values from recent transactions on the blockchain. Gas price for tra
 
 You need to set nonce for the transaction manually. Nonce is, IIUC, the number (count, amount) of transactions already sent from an address. First transaction from new address has nonce 0, second has nonce 1, etc.
 
-It's reasonable to find out how many txs werer sent from sending address from an eth node with updated blockchain, perhaps from here: https://etherscan.io/address/
+It's reasonable to find out how many txs werer sent from sending address from an eth node with updated blockchain, perhaps from here: https://etherscan.io/address/0xyouraddress
 
 Your nonce is `count+1` of the account you want to send from.
 
