@@ -92,15 +92,19 @@ func main() {
 	// signature, _ := crypto.Sign(transaction.SigHash().Bytes(), key)
 	// signed, _ := tx.WithSignature(signature)
 
-	tx := types.NewTransaction(nonce, to_addr, amount_wei, gas_limit,
-		gas_price, nil)
+	tx := types.NewTransaction(nonce, to_addr, amount_wei, gas_limit, gas_price, nil)
 
-	signature, err := am.Sign(from_addr, tx.SigHash().Bytes())
+	signer := types.HomesteadSigner{}
+
+	signature, err := am.Sign(from_addr, tx.SigHash(signer).Bytes())
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	signed_tx, err := tx.WithSignature(signature)
+	//fmt.Println(signature)
+	//fmt.Println(tx)
+
+	signed_tx, err := tx.WithSignature(signer, signature)
 	if err != nil {
 		log.Fatal(err)
 	}
