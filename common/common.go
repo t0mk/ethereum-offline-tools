@@ -8,9 +8,6 @@ import (
 	"os"
 	"strings"
 	"syscall"
-
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/common"
 )
 
 // http://stackoverflow.com/questions/2137357/getpasswd-functionality-in-go
@@ -76,16 +73,24 @@ func GetCheckedPassword(prompt string) string {
 	return p
 }
 
+/*
 func GetAccountForAddr(am *accounts.Manager, addr common.Address) accounts.Account {
-	for a := range am.Accounts() {
-		acc, err := am.AccountByIndex(a)
-		if err != nil {
-			log.Fatal(err)
-		}
-		if acc.Address == addr {
-			return acc
-		}
+	acc, err := am.Find(accounts.Account{Address: addr})
+	if err != nil {
+		log.Fatal(err)
 	}
-	log.Fatal("couldnt find account for address", addr)
-	return accounts.Account{}
+		for w := range am.Wallets {
+			for a := range w.Accounts() {
+				acc, err := am.AccountByIndex(a)
+				if err != nil {
+					log.Fatal(err)
+				}
+				if acc.Address == addr {
+					return acc
+				}
+			}
+		}
+		log.Fatal("couldnt find account for address", addr)
+	return acc
 }
+*/
