@@ -1,3 +1,7 @@
+# This doesn't work for the current Ethereum version as of July 2017
+
+Some things need to be fixed/improved and I didn't have time to figure these out.
+
 I did this because I found no reasonable way to sign ethereum transaction offline - on an air-gapped device, or at least on booted Tails. I just want to avoid typing cold storage password on my workstation.
 
 I wanted to do this on Tails, as that's quite guaranteed to be clean and forgetful. First I tried to do it in Python as in http://vitalik.ca/files/python_cold_wallet_instructions.txt, but it turned out to be too much pain to run the pyethereum on Tails. Then, there is the Icebox https://github.com/ConsenSys/icebox and eth-lightwallet https://github.com/ConsenSys/eth-lightwallet but that's javascript, meaning the browser, or js shell (or whatever JavaScript runs on beside browsers) will get to see the password too :/.
